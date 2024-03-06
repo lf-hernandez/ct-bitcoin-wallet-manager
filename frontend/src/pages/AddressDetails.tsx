@@ -52,9 +52,7 @@ export const AddressDetails = () => {
                                     }
                                 />
                             </ListItem>
-                            {transaction.hash < currentAddress.raw_data.txs.length - 1 && (
-                                <Divider />
-                            )}
+                            {currentAddress.raw_data.txs.length > 1 && <Divider />}
                         </div>
                     ))}
                 </List>
