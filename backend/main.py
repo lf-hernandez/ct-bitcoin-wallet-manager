@@ -4,8 +4,8 @@ from fastapi import Depends, FastAPI
 from sqlalchemy.orm import Session
 
 from data.database import SessionLocal, engine, Base
-from data import models
 from api.address import sync_address, get_addresses, get_address
+from api.transaction import sync_transactions
 
 Base.metadata.create_all(bind=engine)
 
@@ -51,7 +51,19 @@ def get_bitcoin_address(addr: str, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Address not found")
     return db_bitcoin_address
 
+@app.get("/addresses/sync/")
+def sync_bitcoin_address(skip: int = 0, limit: int = 100,db: Session = Depends(get_db)):
+    db_addresses = get_addresses(skip, limit, db)
+    for address in db_addresses:
+        sync_address(address.address, db)
+    
+
 @app.get("/address/sync/{addr}")
 def sync_bitcoin_address(addr: str, db: Session = Depends(get_db)):
-    bitcoin_address = sync_address(addr, db)
-    return bitcoin_address.address
+    sync_address(addr, db)
+    
+
+@app.get("/transactions/sync/{addr}")
+def sync_bitcoin_address(addr: str, db: Session = Depends(get_db)):
+    transactions = sync_transactions(addr, db)
+    
