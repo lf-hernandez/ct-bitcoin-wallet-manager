@@ -33,7 +33,7 @@ As of now this means:
 
 ### Data
 
-* Wallet
+* Address
   * id
   * address (external_id)
   * nickname
