@@ -42,3 +42,15 @@ def sync_transactions(bitcoin_addr: str, db: Session = None):
         db.commit()
     
 
+def get_transaction(hash: str, db: Session = None):
+    return db.query(models.Transaction).filter_by(hash=hash).one_or_none()
+
+def get_transactions(addr: str, skip: int = 0, limit: int = 10, db: Session = None):
+    bitcoin_address = db.query(models.BitcoinAddress).filter(models.BitcoinAddress.address == addr).first()
+    
+    if not bitcoin_address:
+        raise Exception("Invalid bitcoin address")
+
+    db_transactions = db.query(models.Transaction).filter(models.Transaction.bitcoin_address_id == bitcoin_address.id).offset(skip).limit(limit).all()
+
+    return db_transactions

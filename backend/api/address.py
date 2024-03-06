@@ -1,3 +1,4 @@
+from http.client import HTTPException
 from sqlalchemy.orm import Session
 
 from integrations.blockchain import client
@@ -35,3 +36,23 @@ def get_address(addr: str, db: Session = None):
 def get_addresses(skip: int = 0, limit: int = 10, db: Session = None):
     db_addresses = db.query(models.BitcoinAddress).offset(skip).limit(limit).all()
     return db_addresses
+
+def create_address(addr: str, db: Session = None):
+    existing_address = db.query(models.BitcoinAddress).filter_by(address=addr).first()
+    if existing_address:
+        raise HTTPException(status_code=400, detail="Address already exists")
+    
+    data = client.get_address_info(addr)
+
+    db_address = models.BitcoinAddress(
+        address=addr,
+        number_of_transactions = data['n_tx'],
+        total_received = data['total_received'],
+        total_sent = data['total_sent'],
+        balance = data["final_balance"],
+        raw_data=data,
+    )
+    db.add(db_address)
+    db.commit()
+    
+    return db_address
