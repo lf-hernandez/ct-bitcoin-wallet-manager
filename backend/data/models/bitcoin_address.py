@@ -1,6 +1,6 @@
 from uuid import uuid4
 from sqlalchemy.dialects.postgresql import UUID, JSON
-from sqlalchemy import Column, String, Integer, DateTime
+from sqlalchemy import Column, Text, Integer, DateTime
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 
@@ -11,7 +11,7 @@ class BitcoinAddress(Base):
     __tablename__ = "bitcoin_addresses"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
-    address = Column(String, unique=True)
+    address = Column(Text, unique=True)
     number_of_transactions = Column(Integer)
     total_received = Column(Integer)
     total_sent = Column(Integer)

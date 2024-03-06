@@ -11,6 +11,8 @@ import {
     Typography,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
+import { toast } from 'react-hot-toast';
+
 import { AddressCard } from '../components/AddressCard';
 import { BitcoinAddress } from '../types';
 
@@ -24,44 +26,68 @@ export const Wallet = () => {
     };
 
     const handleCloseDialog = () => {
+        setNewAddress('');
         setOpenDialog(false);
     };
 
-    const handleAddAddress = () => {
+    const fetchData = async () => {
+        try {
+            const response = await fetch('api/addresses/');
+            const data = await response.json();
+
+            setBitcoinAddresses(data);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+
+    const handleAddAddress = async () => {
+        try {
+            const response = await fetch('/api/address/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ addr: newAddress }),
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            fetchData();
+            toast.success('Bitcoin address added successfully');
+        } catch (error) {
+            toast.error('Failed to add Bitcoin address');
+            console.error('Error fetching data:', error);
+        }
+
         handleCloseDialog();
     };
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await fetch('api/addresses/');
-                const data = await response.json();
-
-                setBitcoinAddresses(data);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        };
-
         fetchData();
     }, []);
 
     return (
         <div>
             <Container maxWidth="lg">
-                <Typography variant="h3" gutterBottom>
-                    CoinTracker Wallet Manager
-                </Typography>
+                <Box
+                    sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+                >
+                    <Typography variant="h3" gutterBottom>
+                        CoinTracker Wallet Manager
+                    </Typography>
+
+                    <Button sx={{ height: '50px' }} variant="contained" onClick={handleOpenDialog}>
+                        Add Address
+                    </Button>
+                </Box>
                 <hr />
                 <Grid container spacing={2}>
                     {bitcoinAddresses.map((address) => (
                         <AddressCard key={address.id} address={address} />
                     ))}
                 </Grid>
-                <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <Button variant="contained" onClick={handleOpenDialog}>
-                        Add Address
-                    </Button>
-                </Box>
             </Container>
 
             <Dialog open={openDialog} onClose={handleCloseDialog}>
@@ -69,6 +95,7 @@ export const Wallet = () => {
                 <DialogContent>
                     <TextField
                         autoFocus
+                        required
                         margin="dense"
                         id="address"
                         label="Bitcoin Address"
@@ -80,7 +107,9 @@ export const Wallet = () => {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCloseDialog}>Cancel</Button>
-                    <Button onClick={handleAddAddress}>Add</Button>
+                    <Button onClick={handleAddAddress} disabled={newAddress === ''}>
+                        Add
+                    </Button>
                 </DialogActions>
             </Dialog>
         </div>

@@ -1,3 +1,4 @@
+import { Toaster } from 'react-hot-toast';
 import { AddressProvider } from './contexts/AddressContenxt';
 import { NavigationProvider } from './contexts/NavigationContext';
 import { useNavigation } from './hooks/navigation';
@@ -23,6 +24,7 @@ function App() {
     return (
         <NavigationProvider>
             <AddressProvider>
+                <Toaster />
                 <RenderContent />
             </AddressProvider>
         </NavigationProvider>
