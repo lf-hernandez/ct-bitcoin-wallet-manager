@@ -33,7 +33,8 @@ To run backend:
 
 ```bash
 cd /backend
-
+# assuming .venv is the name of your virtual environment. Adjust as needed
+source /.venv/bin/activate
+pip install -r requirements
 uvicorn main:app
 ```
-

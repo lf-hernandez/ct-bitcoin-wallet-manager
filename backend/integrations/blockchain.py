@@ -1,5 +1,6 @@
 import requests
 
+
 class BlockchainClient:
     """
     A client for interacting with the Blockchain.com API.
@@ -78,5 +79,6 @@ class BlockchainClient:
             return response.json()
         else:
             return None
+
 
 client = BlockchainClient()

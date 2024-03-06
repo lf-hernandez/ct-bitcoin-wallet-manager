@@ -15,7 +15,6 @@ class Transaction(Base):
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     last_modified_at = Column(DateTime(timezone=True), onupdate=func.now())
     raw_data = Column(JSON)
-    bitcoin_address_id = Column(UUID(as_uuid=True), ForeignKey('bitcoin_addresses.id'))
+    bitcoin_address_id = Column(UUID(as_uuid=True), ForeignKey("bitcoin_addresses.id"))
 
     bitcoin_address = relationship("BitcoinAddress", back_populates="transactions")
-    
