@@ -1,11 +1,10 @@
-FROM postgres:16
+FROM python:3.12
 
-COPY ./init.sql /docker-entrypoint-initdb.d/
+WORKDIR /app
 
-ENV POSTGRES_DB=db
-ENV POSTGRES_USER=postgres
-ENV POSTGRES_PASSWORD=postgres
+COPY ./requirements.txt /app/requirements.txt
+RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt
 
-EXPOSE 5432
+COPY . /app/
 
-CMD ["postgres"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]

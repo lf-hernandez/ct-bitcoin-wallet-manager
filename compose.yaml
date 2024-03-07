@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+    frontend:
+        build: ./frontend
+        working_dir: /appß
+        ports:
+            - '3000:80'
+        environment:
+            - NODE_ENV=development
+        networks:
+            - ct-net
+
+    backend:
+        build: ./backend
+        ports:
+            - '8000:8000'
+        depends_on:
+            - db
+        environment:
+            - DATABASE_URL=postgresql://postgres:postgres@db:5432/db
+        networks:
+            - ct-net
+
+    db:
+        build: ./database
+        ports:
+            - '5432:5432'
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
+        networks:
+            - ct-net
+
+volumes:
+    postgres_data:
+
+networks:
+    ct-net:

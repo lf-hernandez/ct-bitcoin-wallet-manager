@@ -87,25 +87,27 @@ export const AddressDetails = () => {
             <Typography variant="h5" sx={{ mt: 2, mb: 1 }}>
                 Transactions
             </Typography>
-            {currentAddress.raw_data.txs.map((transaction, index) => (
-                <Card key={transaction.hash} variant="outlined" sx={{ mb: 2 }}>
-                    <CardContent>
-                        <Typography variant="body1" gutterBottom>
-                            Transaction Hash: {transaction.hash}
-                        </Typography>
-                        <Typography variant="body2" color="textSecondary">
-                            Balance: {transaction.balance}
-                        </Typography>
-                        <Typography variant="body2" color="textSecondary">
-                            Fee: {transaction.fee}
-                        </Typography>
-                        <Typography variant="body2" color="textSecondary">
-                            Result: {transaction.result}
-                        </Typography>
-                    </CardContent>
-                    {currentAddress.raw_data.txs.length > 1 && <Divider />}
-                </Card>
-            ))}
+            {currentAddress.raw_data.txs.map(
+                (transaction: { hash: string; balance: number; fee: number; result: number }) => (
+                    <Card key={transaction.hash} variant="outlined" sx={{ mb: 2 }}>
+                        <CardContent>
+                            <Typography variant="body1" gutterBottom>
+                                Transaction Hash: {transaction.hash}
+                            </Typography>
+                            <Typography variant="body2" color="textSecondary">
+                                Balance: {transaction.balance}
+                            </Typography>
+                            <Typography variant="body2" color="textSecondary">
+                                Fee: {transaction.fee}
+                            </Typography>
+                            <Typography variant="body2" color="textSecondary">
+                                Result: {transaction.result}
+                            </Typography>
+                        </CardContent>
+                        {currentAddress.raw_data.txs.length > 1 && <Divider />}
+                    </Card>
+                )
+            )}
         </Container>
     );
 };

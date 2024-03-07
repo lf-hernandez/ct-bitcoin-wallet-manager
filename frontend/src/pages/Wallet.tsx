@@ -32,7 +32,8 @@ export const Wallet = () => {
 
     const fetchData = async () => {
         try {
-            const response = await fetch('api/addresses/');
+            const url = import.meta.env.DEV ? 'api/addresses/' : 'http://localhost:8000/addresses/';
+            const response = await fetch(url);
             const data = await response.json();
 
             setBitcoinAddresses(data);
@@ -43,7 +44,8 @@ export const Wallet = () => {
 
     const handleAddAddress = async () => {
         try {
-            const response = await fetch('/api/address/', {
+            const url = import.meta.env.DEV ? 'api/address/' : 'http://localhost:8000/address/';
+            const response = await fetch(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
