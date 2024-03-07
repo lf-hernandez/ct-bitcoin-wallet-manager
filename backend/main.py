@@ -2,8 +2,8 @@ from http.client import HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import Depends, FastAPI
 from sqlalchemy.orm import Session
-from pydantic import BaseModel
 
+from schemas import BitcoinAddress
 from data.database import SessionLocal, engine, Base
 from api.address import sync_address, get_addresses, get_address
 from api.address import create_address
@@ -35,12 +35,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-from pydantic import BaseModel
-
-
-class BitcoinAddress(BaseModel):
-    addr: str
 
 
 @app.get("/")
