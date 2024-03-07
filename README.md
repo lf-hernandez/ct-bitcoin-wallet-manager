@@ -4,18 +4,18 @@ Design doc located [here](design.md)
 
 ## Development setup
 
-### Backend
-
-Running via docker compose:
+Running via Docker Compose:
 
 ```bash
 docker compose up -d
 ```
 
 note*
-if running compose there is a switch for the DSN used in backend/database initialization 
-and frontend api calls. vite config proxy will also not run in compose since it's running
+If running app via compose there are switches for the DSN used in the backend/database initialization 
+as well frontend api calls. vite config proxy will also not run in compose since it's running
 a production build. This is not ideal but allowed me to quickly setting up the 3 services in compose.
+
+### Backend
 
 Running locally:
 To setup and run containerized Postgres on Docker:
