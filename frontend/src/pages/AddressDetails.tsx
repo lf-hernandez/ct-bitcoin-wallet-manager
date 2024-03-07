@@ -2,6 +2,8 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ShowChartIcon from '@mui/icons-material/ShowChart';
 import { Box, Button, Card, CardContent, Container, Divider, Typography } from '@mui/material';
+import toast from 'react-hot-toast';
+
 import { useAddressContext } from '../hooks/address';
 import { useNavigation } from '../hooks/navigation';
 import { Page } from '../types';
@@ -16,6 +18,18 @@ export const AddressDetails = () => {
     }
 
     const iconStyle = { color: 'blue', verticalAlign: 'middle', marginRight: '4px' };
+    const handleSync = async () => {
+        try {
+            const response = await fetch(`api/address/sync/${currentAddress.address}`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            toast.success('Sync complete');
+        } catch (error) {
+            toast.error('Sync failed');
+            console.error('Error fetching data:', error);
+        }
+    };
 
     return (
         <Container maxWidth="lg">
@@ -64,6 +78,12 @@ export const AddressDetails = () => {
                     </Box>
                 </CardContent>
             </Card>
+            <Box>
+                <Button variant="contained" color="secondary" onClick={handleSync}>
+                    Synchronize Transactions
+                </Button>
+            </Box>
+
             <Typography variant="h5" sx={{ mt: 2, mb: 1 }}>
                 Transactions
             </Typography>
