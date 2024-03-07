@@ -1,4 +1,13 @@
-import { Container, Divider, List, ListItem, ListItemText, Typography } from '@mui/material';
+import {
+    Box,
+    Button,
+    Container,
+    Divider,
+    List,
+    ListItem,
+    ListItemText,
+    Typography,
+} from '@mui/material';
 import { useAddressContext } from '../hooks/address';
 import { useNavigation } from '../hooks/navigation';
 import { Page } from '../types';
@@ -15,9 +24,19 @@ export const AddressDetails = () => {
     return (
         <div>
             <Container maxWidth="lg">
-                <Typography variant="h3" gutterBottom>
-                    Address Details
-                </Typography>
+                <Box
+                    sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+                >
+                    <Button variant="contained" onClick={() => setCurrentPage(Page.WALLET)}>
+                        Back
+                    </Button>
+                    <Typography variant="h3" gutterBottom>
+                        Address Details
+                    </Typography>
+                    <Button variant="contained" color="error">
+                        Delete
+                    </Button>
+                </Box>
                 <hr />
                 <Typography variant="h6">{currentAddress.address}</Typography>
                 <Typography>Balance: {currentAddress.balance}</Typography>

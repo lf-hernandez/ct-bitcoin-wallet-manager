@@ -78,12 +78,13 @@ export const Wallet = () => {
                         CoinTracker Wallet Manager
                     </Typography>
 
-                    <Button sx={{ height: '50px' }} variant="contained" onClick={handleOpenDialog}>
+                    <Button variant="contained" onClick={handleOpenDialog}>
                         Add Address
                     </Button>
                 </Box>
                 <hr />
-                <Grid container spacing={2}>
+
+                <Grid sx={{ marginTop: 2 }} container spacing={2}>
                     {bitcoinAddresses.map((address) => (
                         <AddressCard key={address.id} address={address} />
                     ))}
