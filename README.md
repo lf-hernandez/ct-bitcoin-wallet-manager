@@ -1,6 +1,7 @@
 # CoinTracker Wallet Manager
 
 Design doc located [here](design.md)
+Bitcoin/blockchain project to understand some underlying concepts [here[(https://github.com/lf-hernandez/bitcoinplayground/tree/main)
 
 ## Development setup
 
