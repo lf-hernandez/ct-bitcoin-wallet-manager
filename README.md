@@ -3,7 +3,7 @@
 Design doc located [here](design.md)
 
 
-Bitcoin/blockchain project to understand some underlying concepts [here](https://github.com/lf-hernandez/bitcoinplayground/tree/main)
+Bitcoin/blockchain project to understand some underlying concepts (Merkle Trees, Communal Ledgers, digital signing of transactions)[here](https://github.com/lf-hernandez/bitcoinplayground/tree/main)
 
 ## Development setup
 
